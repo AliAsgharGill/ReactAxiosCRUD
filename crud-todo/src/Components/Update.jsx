@@ -1,24 +1,30 @@
-import { useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 
-const Create = () => {
+const Update = () => {
+  const [id, setId] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const header = { "Access-Control-Allow-Origin": "*" };
-  const history = useNavigate();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios.post("https://65784a9df08799dc8044d036.mockapi.io/CRUD-One", {
-      name: name,
-      email: email,
-      header,
-    });
-    history("/read");
+  const navigate = useNavigate();
+  useEffect(() => {
+    setId(localStorage.getItem("id"));
+    setName(localStorage.getItem("name"));
+    setEmail(localStorage.getItem("email"));
+  }, []);
+  const handleBack = () => {
+    navigate("/read");
   };
-  const handleShowList = () => {
-    history("/read");
+  const handleUpdate = () => {
+    axios
+      .put(`https://65784a9df08799dc8044d036.mockapi.io/CRUD-One/${id}`, {
+        name: name,
+        email: email,
+      })
+      .then(() => {
+        navigate("/read");
+      });
   };
   return (
     <>
@@ -37,6 +43,7 @@ const Create = () => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="username"
                 type="text"
+                value={name}
                 placeholder="Username"
                 onChange={(e) => {
                   setName(e.target.value);
@@ -54,7 +61,8 @@ const Create = () => {
                 className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="email"
-                placeholder="Email"
+                value={email}
+                placeholder=""
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -64,16 +72,20 @@ const Create = () => {
               <button
                 className="text-white bg-gradient-to-br font-bold from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800  text-sm  text-center me-2 mb-2 bg-gray-700 hover:bg-blue-700 m-4font-bold py-2 px-4 rounded focus:shadow-outline focus:shadow-outline"
                 type="button"
-                onClick={handleSubmit}
+                onClick={() => {
+                  handleUpdate(id);
+                }}
               >
                 Submit
               </button>
               <button
-                className="text-white bg-gradient-to-br font-bold from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800  text-sm  text-center me-2 mb-2 bg-gray-700 hover:bg-blue-700 m-4font-bold py-2 px-4 rounded focus:shadow-outline focus:shadow-outline"
+                className=" text-white bg-gradient-to-br font-bold from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800  text-sm  text-center me-2 mb-2 bg-gray-700 hover:bg-blue-700 m-4font-bold py-2 px-4 rounded focus:shadow-outline focus:shadow-outline"
                 type="button"
-                onClick={handleShowList}
+                onClick={() => {
+                  handleBack();
+                }}
               >
-                Show List
+                Back to List
               </button>
             </div>
           </div>
@@ -83,4 +95,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Update;
