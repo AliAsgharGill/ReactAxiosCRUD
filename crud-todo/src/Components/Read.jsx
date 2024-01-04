@@ -23,7 +23,7 @@ const Read = () => {
   };
   const getData = () => {
     axios
-      .get("https://65784a9df08799dc8044d036.mockapi.io/CRUD-One")
+      .get("https://65784a9df08799dc8044d036.mockapi.io/CRUD")
       .then((res) => {
         setData(res.data);
       });
@@ -31,7 +31,7 @@ const Read = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`https://65784a9df08799dc8044d036.mockapi.io/CRUD-One/${id}`)
+      .delete(`https://65784a9df08799dc8044d036.mockapi.io/CRUD/${id}`)
       .then(getData());
   };
   return (

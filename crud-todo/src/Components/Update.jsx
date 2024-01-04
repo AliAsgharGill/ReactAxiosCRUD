@@ -18,7 +18,7 @@ const Update = () => {
   };
   const handleUpdate = () => {
     axios
-      .put(`https://65784a9df08799dc8044d036.mockapi.io/CRUD-One/${id}`, {
+      .put(`https://65784a9df08799dc8044d036.mockapi.io/CRUD/${id}`, {
         name: name,
         email: email,
       })
